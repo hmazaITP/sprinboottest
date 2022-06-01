@@ -8,68 +8,54 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActorTest {
-    Actor actor = null;
+
     @BeforeEach
     void setUp() {
-        actor = new Actor(1L,"Cruise","Tom", LocalDate.of(2000,12,12));
     }
 
     @Test
     void getId() {
-        assertEquals(1L,actor.getId());
-    }
+        Actor actor = new Actor(1L, "Doe", "Hugo", LocalDate.of(1920,12,12));
+        assertTrue(actor.getId()== 1);
+        assertEquals(1,actor.getId());
+   }
 
     @Test
     void getSurname() {
-        assertEquals("Cruise", actor.getSurname());
+        Actor actor = new Actor(1L, "Doe", "Hugo", LocalDate.of(1920,12,12));
+        assertEquals("Doe",actor.getSurname());
     }
 
     @Test
     void getName() {
-        assertEquals("Tom", actor.getName());
     }
 
     @Test
     void getBirthday() {
-        assertEquals(LocalDate.of(2000,12,12), actor.getBirthday());
     }
 
     @Test
     void setId() {
-        Long id = 2L;
-        actor.setId(id);
-        assertEquals(id,actor.getId());
+        Actor actor = new Actor();
+        actor.setId(Long.parseLong("5"));
+        assertEquals(5,actor.getId());
     }
 
     @Test
     void setSurname() {
-        String surname = "Surname";
-        actor.setSurname(surname);
-        assertEquals(surname,actor.getSurname());
     }
 
     @Test
     void setName() {
-        String name = "Name";
-        actor.setName(name);
-        assertEquals(name,actor.getName());
     }
 
     @Test
     void setBirthday() {
-        LocalDate birthday = LocalDate.now();
-        actor.setBirthday(birthday);
-        assertEquals(birthday,actor.getBirthday());
     }
 
     @Test
     void testToString() {
-        assertEquals("Actor(id=1, surname=Cruise, name=Tom, birthday=2000-12-12)",actor.toString());
-    }
-
-    @Test
-    void constructorEmpty(){
-        actor = new Actor();
-        assertNull(actor.getId());
+        Actor actor = new Actor(1L, "Doe", "Hugo", LocalDate.of(1920,12,12));
+        assertEquals("Actor(id=1, surname=Doe, name=Hugo, birthday=1920-12-12)",actor.toString());
     }
 }
