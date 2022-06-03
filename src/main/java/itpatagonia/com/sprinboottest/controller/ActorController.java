@@ -5,6 +5,7 @@ import itpatagonia.com.sprinboottest.model.Actor;
 import itpatagonia.com.sprinboottest.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,10 @@ public class ActorController {
     @Autowired
     private ActorService actorService;
 
-    @PostMapping("/create")
+    @PostMapping(value ="/create")
     public ResponseEntity<Actor> createActor(@RequestBody Actor actor){
         Actor act = actorService.createActor(actor);
-        return ResponseEntity.ok(act);
+        return new ResponseEntity<Actor>(act,HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
@@ -58,7 +59,7 @@ public class ActorController {
     public ResponseEntity<?> deleteActor(@PathVariable("id") Long id){
         try {
             actorService.deleteActor(id);
-            return ResponseEntity.ok("Actor Eliminado ");
+            return ResponseEntity.ok("Actor Eliminado");
         } catch (NoEntityException e) {
             System.out.println(e.getMessage());
             //return new ResponseEntity<>("Actor No encontrado", HttpStatusCode.valueOf(400));

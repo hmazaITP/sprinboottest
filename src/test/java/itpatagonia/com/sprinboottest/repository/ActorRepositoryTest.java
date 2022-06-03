@@ -11,15 +11,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-class ActorMovieRepositoryTest {
+class ActorRepositoryTest {
     @Autowired
     ActorRepository actorRepository;
 
     @Test
     void findById(){
         assertTrue(actorRepository.findById(12L).isPresent());
-        assertEquals(  "Bellucci"  ,actorRepository.findById(12L).get().getSurname());
-   }
+    }
 
     @Test
     void findAll(){
@@ -27,8 +26,6 @@ class ActorMovieRepositoryTest {
 
         assertFalse(list.isEmpty());
         assertTrue(list.size()>0);
-
-        //assertEquals(  "Bellucci"  ,actorRepository.findById(12L).get().getSurname());
     }
 
     @Test
@@ -39,6 +36,4 @@ class ActorMovieRepositoryTest {
         System.out.println(actorSave);
         assertTrue(actorSave.getId()>0);
     }
-
-
 }

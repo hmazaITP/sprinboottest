@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class ActorService {
 
     public int calcularEdad(Long id) throws NoEntityException {
         Optional<Actor> actor = this.actorRepository.findById(id);
-            return Period.between(actor.orElseThrow(() -> new NoEntityException("No existe Actor con " + id)).getBirthday(),
+        return Period.between(actor.orElseThrow(() -> new NoEntityException("No existe Actor con " + id)).getBirthday(),
                     LocalDate.now()).getYears();
 
     }
