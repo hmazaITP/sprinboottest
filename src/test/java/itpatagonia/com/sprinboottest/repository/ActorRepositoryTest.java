@@ -30,7 +30,7 @@ class ActorRepositoryTest {
 
     @Test
     void create(){
-        Actor actor = new Actor(null, "Maza", "Hugo", LocalDate.of(1920,12,12));
+        Actor actor = new Actor(null, "Keanu", "Reeves", LocalDate.of(1920,12,12));
         System.out.println(actor);
         Actor actorSave = actorRepository.save(actor);
         System.out.println(actorSave);

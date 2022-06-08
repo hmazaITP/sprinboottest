@@ -37,7 +37,7 @@ CREATE TABLE `actor` (
 
 LOCK TABLES `actor` WRITE;
 /*!40000 ALTER TABLE `actor` DISABLE KEYS */;
-INSERT INTO `actor` VALUES (1,'Cruise','Tom','1965-12-12'),(2,'Reeves','Keanu','1970-06-06'),(3,'Weaving','Hugo','1960-05-09'),(4,'Bellucci','Monica','2022-05-09'),(5,'Maza','hugo','1900-05-09'),(7,'Weaving','Hugo','1960-05-09'),(9,'Maza','hugo','1900-05-09'),(10,'Maza','hugo','1900-05-09');
+INSERT INTO `actor` VALUES (1,'Cruise','Tom','1965-12-12'),(2,'Reeves','Keanu','1970-06-06'),(3,'Weaving','Hugo','1960-05-09'),(4,'Bellucci','Monica','2022-05-09'),(5,'HetField','James','1900-05-09'),(7,'Weaving','Hugo','1960-05-09'),(9,'Al Pacino','Alfredo','1900-05-09'),(10,'De Niro','Robert','1900-05-09');
 /*!40000 ALTER TABLE `actor` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -9,7 +9,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/actors/v1")
@@ -68,7 +72,7 @@ public class ActorController {
     }
 
     @GetMapping("/calcularedad/{id}")
-    public int getEstimateAge(@PathVariable Long id){
+    public int getEstimateAge(@PathVariable Long id) {
         try {
             //return new ResponseEntity<>(actorService.calcularEdad(id), HttpStatusCode.valueOf(200));
             return actorService.calcularEdad(id);
@@ -76,5 +80,63 @@ public class ActorController {
             System.out.println(e.getMessage());
             return 0;
         }
+    }
+
+    @GetMapping("/calcularedadpromedio")
+    public int getAverageAge(){
+        List<Actor> actorList = actorService.findAll();
+        return (int) actorList.stream().mapToInt(objeto -> Period.between(objeto.getBirthday(),LocalDate.now()).getYears())
+                .average().orElseThrow();
+    }
+
+    @GetMapping("/mayoresde18")
+    public List<Actor> getGreaters(){
+        List<Actor> actorList = actorService.findAll();
+        return actorList.stream().filter(objeto -> Period.between(objeto.getBirthday(),LocalDate.now()).getYears()>=18 )
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/menoresde18")
+    public List<Actor> getMinors(){
+        List<Actor> actorList = actorService.findAll();
+        return actorList.stream().filter(objeto -> Period.between(objeto.getBirthday(),LocalDate.now()).getYears()<18 )
+                .sorted(Comparator.comparing(Actor::getSurname))
+                .collect(Collectors.toList());
+    }
+
+    Comparator<Actor> comparatorYear = (a1, a2) -> Period.between(a2.getBirthday(), LocalDate.now()).getYears() -
+            Period.between(a1.getBirthday(), LocalDate.now()).getYears();
+
+    @GetMapping("/listareversa")
+    public List<Actor> getReverseList(){
+        List<Actor> actorList = actorService.findAll();
+
+        //return actorList.stream().sorted((a1, a2) -> (int)(Period.between(a2.getBirthday(), LocalDate.now()).getYears() -
+        //        Period.between(a1.getBirthday(), LocalDate.now()).getYears())).collect(Collectors.toList());
+        return actorList.stream().sorted(Comparator.comparing(Actor::getSurname).reversed()).collect(Collectors.toList());
+    }
+
+    @GetMapping("/mayoredad")
+    public Actor getGreater(){
+        List<Actor> actorList = actorService.findAll();
+        return actorList.stream().max((a1, a2) -> Period.between(a1.getBirthday(), LocalDate.now()).getYears() -
+                Period.between(a2.getBirthday(), LocalDate.now()).getYears()).orElseThrow();
+    }
+
+    @GetMapping("/menoredad")
+    public List<Actor> getMinor(){
+        List<Actor> actorList = actorService.findAll();
+       // return actorList.stream().min((a1, a2) -> Period.between(a1.getBirthday(), LocalDate.now()).getYears() -
+        //        Period.between(a2.getBirthday(), LocalDate.now()).getYears()).stream().limit(3).collect(Collectors.toList());
+        return actorList.stream().filter(
+                        y -> Period.between(y.getBirthday(), LocalDate.now()).getYears()<18).
+                sorted(comparatorYear).limit(3).collect(Collectors.toList());
+    }
+
+    @GetMapping("/sumaredades")
+    public int getYearsTotal(){
+        List<Actor> actorList = actorService.findAll();
+        return actorList.stream().mapToInt( y -> Period.between(y.getBirthday(), LocalDate.now()).getYears()).reduce(
+                        (accumulate,year) -> accumulate + year).orElse(0);
     }
 }
